@@ -1,5 +1,11 @@
 import socket
 import re
+import datetime
+import time
+import os
+import platform    
+import subprocess
+
 
 open_port_counter = 0
 counter = 0
@@ -12,17 +18,18 @@ ipv4_pattern = re.compile(
 )
 
 common_ports = {
-20: "FTP",
-21: "FTP",
-22: "SSH (possible brute force attack, not guaranted)", 
-23: "Telnet",
-53: "DNS",
-80: "HTTP",
-443: "HTTPS",
-587: "SMTP",
-3389: "RDP (Remote Desktop Protocol)"
-
+    20: "FTP",
+    21: "FTP",
+    22: "SSH (possible brute force attack, not guaranteed)",
+    23: "Telnet",
+    53: "DNS",
+    80: "HTTP",
+    443: "HTTPS",
+    587: "SMTP",
+    3389: "RDP (Remote Desktop Protocol)",
+    8080: "HTTP-ALT"
 }
+
 
 TARGET_IP_ADRESS = str(input("Enter a target IPv4 Adress: "))
 
@@ -56,20 +63,38 @@ else:
     while END_PORT.isdigit() == False or int(END_PORT) > 65535 or int(END_PORT) < 0:
         END_PORT = input("Enter a corect end range of the target ports: ")
 
+os.system('cls' if os.name == 'nt' else 'clear')
+
 BASE_PORT = int(BASE_PORT)
 END_PORT = int(END_PORT)
 
 
+def check_port_service(BASE_PORT):
+    if BASE_PORT in common_ports:
+        print(common_ports[BASE_PORT])
+    else:
+        print("no")
+           
+print(f"Starting the scan on target: {TARGET_IP_ADRESS}", end = "")
+current_time = datetime.datetime.now()
+print(" at ",str(current_time)[:-7])
+print("")
+time.sleep(3)
+
 while BASE_PORT < END_PORT:
 
     try:
+
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(2)
         s.connect((TARGET_IP_ADRESS, BASE_PORT))
-        print("Connection success.")
-        print(f"Port {BASE_PORT} open")
+        
+        print(f"Port {BASE_PORT} open ", end = "")
+        check_port_service(BASE_PORT)
+
         open_port_counter += 1
         s.close()
+
     except socket.error as e:
         pass
     
@@ -80,3 +105,4 @@ while BASE_PORT < END_PORT:
 print("Scan finished")
 print(f"{counter} ports scanned.")
 print(f"{open_port_counter} ports are open")
+print("")
