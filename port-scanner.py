@@ -14,13 +14,14 @@ TARGET_IP_ADRESS = str(input("Enter a target IPv4 Adress: "))
 def check_IPv4_pattern(TARGET_IP_ADRESS):
     
         if ipv4_pattern.match(TARGET_IP_ADRESS):
-            pass
+            return TARGET_IP_ADRESS
         else:
             print("Enter a correct IPv4 Adress pattern")
             while ipv4_pattern.match(TARGET_IP_ADRESS) is None:
                 TARGET_IP_ADRESS = str(input("Enter a correct target IPv4 Adress: "))
+            return TARGET_IP_ADRESS
 
-check_IPv4_pattern(TARGET_IP_ADRESS)
+TARGET_IP_ADRESS = check_IPv4_pattern(TARGET_IP_ADRESS)
 
 
 BASE_PORT = input("Enter base range of the target ports: ")
