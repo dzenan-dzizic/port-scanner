@@ -11,6 +11,19 @@ ipv4_pattern = re.compile(
     r'(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9])$'
 )
 
+common_ports = {
+20: "FTP",
+21: "FTP",
+22: "SSH (possible brute force attack, not guaranted)", 
+23: "Telnet",
+53: "DNS",
+80: "HTTP",
+443: "HTTPS",
+587: "SMTP",
+3389: "RDP (Remote Desktop Protocol)"
+
+}
+
 TARGET_IP_ADRESS = str(input("Enter a target IPv4 Adress: "))
 
 
