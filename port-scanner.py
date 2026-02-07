@@ -1,5 +1,4 @@
 import socket
-import os
 import re
 
 ipv4_pattern = re.compile(
@@ -9,28 +8,39 @@ ipv4_pattern = re.compile(
     r'(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9])$'
 )
 
-
- 
 TARGET_IP_ADRESS = str(input("Enter a target IPv4 Adress: "))
 
-while len(TARGET_IP_ADRESS) == 0:
-    TARGET_IP_ADRESS = str(input("Empty field! Enter a target IPv4 Adress: "))
 
-def check_IPv4(TARGET_IP_ADRESS):
-    if ipv4_pattern.match(TARGET_IP_ADRESS):
-        pass
-    else:
-        print("Enter a correct IPv4 Adress pattern")
-        return 1
+def check_IPv4_pattern(TARGET_IP_ADRESS):
+    
+        if ipv4_pattern.match(TARGET_IP_ADRESS):
+            pass
+        else:
+            print("Enter a correct IPv4 Adress pattern")
+            while ipv4_pattern.match(TARGET_IP_ADRESS) is None:
+                TARGET_IP_ADRESS = str(input("Enter a correct target IPv4 Adress: "))
 
-while len(TARGET_IP_ADRESS) == 0:
-    TARGET_IP_ADRESS = str(input("Empty field! Enter a target IPv4 Adress: "))
-
-BASE_PORT = int(input("Enter base range of the target ports: "))
+check_IPv4_pattern(TARGET_IP_ADRESS)
 
 
-END_PORT = int(input("Enter end range of the target ports: "))
+BASE_PORT = input("Enter base range of the target ports: ")
+    
+if BASE_PORT.isdigit():
+    pass
+else:
+    while BASE_PORT.isdigit() == False:
+        BASE_PORT = input("Enter a corect base range of the target ports: ")
 
+
+END_PORT = input("Enter end range of the target ports: ")
+if END_PORT.isdigit():
+    pass
+else:
+    while END_PORT.isdigit() == False:
+        END_PORT = input("Enter a corect end range of the target ports: ")
+
+BASE_PORT = int(BASE_PORT)
+END_PORT = int(END_PORT)
 
 try:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
