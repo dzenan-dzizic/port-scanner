@@ -1,5 +1,3 @@
-#add error handling if bse por is bigger or equal than end port
-
 import socket
 import re
 import datetime
