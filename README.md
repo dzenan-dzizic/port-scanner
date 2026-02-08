@@ -3,8 +3,6 @@
 A simple TCP port scanner written in Python as my second python project.  
 It scans a user-defined port range on a target IPv4 address, checks host availability, identifies common services, and attempts basic banner grabbing.
 
-**Educational use only. Scan only systems you own or have permission to test.**
-
 ## Features
 - IPv4 validation with regex
 - Custom port range scanning
@@ -29,6 +27,16 @@ It scans a user-defined port range on a target IPv4 address, checks host availab
 ## Purpose
 
 --Built as a learning project to practice Python networking, sockets, input validation, and OS-level interactions.
+
+## Legal & Ethical Notice
+
+This tool is intended for educational purposes only.
+Only scan systems you own or have explicit permission to test.
+Unauthorized scanning may be illegal and unethical.
+
+The author is not responsible for any misuse, damage, or legal consequences
+resulting from the use of this software.
+
 
 # Clone
 ```bash
