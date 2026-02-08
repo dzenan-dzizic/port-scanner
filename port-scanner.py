@@ -20,7 +20,7 @@ ipv4_pattern = re.compile(
 common_ports = {
     20: "FTP",
     #21: "FTP",
-    #22: "SSH (possible brute force attack, not guaranteed)",
+    #22: "SSH",
     #23: "Telnet",
     53: "DNS",
     80: "HTTP",
@@ -63,7 +63,9 @@ else:
     while END_PORT.isdigit() == False or int(END_PORT) > 65535 or int(END_PORT) < 0:
         END_PORT = input("Enter a corect end range of the target ports: ")
 
-
+if int(END_PORT) <= int(BASE_PORT):
+    while END_PORT <= BASE_PORT:
+        END_PORT = input("End port can;t be smaller than bse port!. Enter a corect end range of the target ports: ")
 
 os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -129,7 +131,7 @@ while BASE_PORT <= END_PORT:
         s.close()
 
     except socket.error as e:
-        pass
+        print("\n",e)
     
     counter += 1
     BASE_PORT += 1
