@@ -130,8 +130,10 @@ while BASE_PORT <= END_PORT:
         open_port_counter += 1
         s.close()
 
-    except socket.error as e:
-        print("\n",e)
+    except socket.timeout:
+        pass
+    except ConnectionRefusedError:
+        pass
     
     counter += 1
     BASE_PORT += 1
