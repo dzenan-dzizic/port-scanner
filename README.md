@@ -37,5 +37,5 @@ git clone https://github.com/dzenan-dzizic/port-scanner.git
 
 ## Usage
 ```bash
-python3 port_scanner.py
+python3 port-scanner.py
 ```
