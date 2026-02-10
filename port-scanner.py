@@ -65,7 +65,7 @@ else:
 
 if int(END_PORT) <= int(BASE_PORT):
     while END_PORT <= BASE_PORT:
-        END_PORT = input("End port can;t be smaller than bse port!. Enter a corect end range of the target ports: ")
+        END_PORT = input("End port can't be smaller than base port!. Enter a corect end range of the target ports: ")
 
 os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -108,8 +108,7 @@ time.sleep(3)
 
 def banner(s, BASE_PORT):
     try:
-        if BASE_PORT in [443,80,8080,8081]:
-            return ""
+        
         return s.recv(1024).decode().strip()
         
     except socket.error as e:
