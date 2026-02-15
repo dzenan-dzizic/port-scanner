@@ -19,9 +19,9 @@ ipv4_pattern = re.compile(
 
 common_ports = {
     20: "FTP",
-    #21: "FTP",
-    #22: "SSH",
-    #23: "Telnet",
+    21: "FTP",
+    22: "SSH",
+    23: "Telnet",
     53: "DNS",
     80: "HTTP",
     443: "HTTPS",
@@ -29,10 +29,6 @@ common_ports = {
     3389: "RDP (Remote Desktop Protocol)",
     8080: "HTTP-ALT"
 }
-
-
-TARGET_IP_ADRESS = str(input("Enter a target IPv4 Adress: "))
-
 
 def check_IPv4_pattern(TARGET_IP_ADRESS):
     
@@ -44,34 +40,13 @@ def check_IPv4_pattern(TARGET_IP_ADRESS):
                 TARGET_IP_ADRESS = str(input("Enter a correct target IPv4 Adress: "))
             return TARGET_IP_ADRESS
 
-TARGET_IP_ADRESS = check_IPv4_pattern(TARGET_IP_ADRESS)
-
-
-BASE_PORT = input("Enter base range of the target ports: ")
-    
-if BASE_PORT.isdigit() and int(BASE_PORT) <= 65535 and int(BASE_PORT) > 0:
-    pass
-else:
-    while BASE_PORT.isdigit() == False or int(BASE_PORT) > 65535 or int(BASE_PORT) < 0:
-        BASE_PORT = input("Enter a corect base range of the target ports (1-65535): ")
-
-
-END_PORT = input("Enter end range of the target ports: ")
-if END_PORT.isdigit() and int(END_PORT) <= 65535 and int(END_PORT) > 0:
-    pass
-else:
-    while END_PORT.isdigit() == False or int(END_PORT) > 65535 or int(END_PORT) < 0:
-        END_PORT = input("Enter a corect end range of the target ports: ")
-
-if int(END_PORT) <= int(BASE_PORT):
-    while END_PORT <= BASE_PORT:
-        END_PORT = input("End port can't be smaller than base port!. Enter a corect end range of the target ports: ")
-
-os.system('cls' if os.name == 'nt' else 'clear')
-
-BASE_PORT = int(BASE_PORT)
-END_PORT = int(END_PORT)
-
+def validate_port(port):
+    if port.isdigit() and int(port) <= 65535 and int(port) > 0:
+        pass
+    else:
+        while port.isdigit() == False or int(port) > 65535 or int(port) < 0:
+            port = input("Enter a correct base range of the target ports (1-65535): ")
+    return int(port)
 
 def ping_host(TARGET_IP_ADRESS):
 
@@ -88,11 +63,27 @@ def ping_host(TARGET_IP_ADRESS):
     else:
         print("The host is either down or blocking ping requests.")
 
-
 def check_port_service(BASE_PORT):
     if BASE_PORT in common_ports:
         print(common_ports[BASE_PORT])
-   
+
+
+TARGET_IP_ADRESS = str(input("Enter a target IPv4 Adress: "))
+TARGET_IP_ADRESS = check_IPv4_pattern(TARGET_IP_ADRESS)
+
+
+BASE_PORT = validate_port(input("Enter base range of the target ports: ")) 
+
+
+END_PORT = validate_port(input("Enter end range of the target ports: "))
+
+
+if END_PORT <= BASE_PORT:
+    while END_PORT <= BASE_PORT:
+        END_PORT = validate_port(input("End port can't be smaller than base port!. Enter a corect end range of the target ports: "))
+
+os.system('cls' if os.name == 'nt' else 'clear')
+
       
 print(f"Starting the scan on target: {TARGET_IP_ADRESS}", end = "")  
 
@@ -106,7 +97,7 @@ ping_host(TARGET_IP_ADRESS)
 print("")
 time.sleep(3)
 
-def banner(s, BASE_PORT):
+def banner(s):
     try:
         
         return s.recv(1024).decode().strip()
@@ -123,7 +114,7 @@ while BASE_PORT <= END_PORT:
         s.settimeout(2)
         s.connect((TARGET_IP_ADRESS, BASE_PORT))
         
-        print(f"Port {BASE_PORT} open -> ",(banner(s, BASE_PORT)), end = " ")
+        print(f"Port {BASE_PORT} open -> ",(banner(s)), end = " ")
         check_port_service(BASE_PORT)
 
         open_port_counter += 1
